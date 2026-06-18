@@ -5,7 +5,7 @@
 > **OSS & local-first:** everything here runs on **Ollama** locally — *free, or almost free*.
 
 > **Status:** Teaching reference · **Owner:** QA Architect
-> **Governing standards:** [`shared-docs/STANDARDS.md`](../shared-docs/STANDARDS.md) (the 7 Laws) ·
+> **Governing standards:** [`STANDARDS.md`](STANDARDS.md) (the 7 Laws) ·
 > **ADR-019** (AI in Test Automation) · **ADR-016** (Distributed Tracing).
 
 ---
@@ -508,7 +508,7 @@ ollama pull llama3.1:8b
 
 #### Documentation Links
 
-- ADR-019 (this portfolio's policy): [`../shared-docs/docs/adr/ADR-019-ai-in-test-automation.md`](../shared-docs/docs/adr/ADR-019-ai-in-test-automation.md)
+- ADR-019 (this project's governing policy): [`docs/adr/ADR-019-ai-in-test-automation.md`](docs/adr/ADR-019-ai-in-test-automation.md)
 - LangChain agents: <https://python.langchain.com/docs/concepts/agents/>
 - Playwright MCP (agentic UI driving): <https://github.com/microsoft/playwright-mcp>
 
@@ -642,7 +642,7 @@ def traced_generate(rag, question):
 ```
 
 ```python
-# Surface trace_id into the report + Jaeger deep-link (ADR-016, mirrors the portfolio pattern)
+# Surface trace_id into the report + Jaeger deep-link (ADR-016)
 import os, allure
 answer, trace_id = traced_generate(rag, question)
 allure.dynamic.label("otel.trace_id", trace_id)
@@ -653,8 +653,8 @@ if (ui := os.getenv("JAEGER_UI_URL")):
 ### 4.3 Local Setup
 
 ```bash
-# Local Jaeger + OTLP collector (per ADR-016 templates) — free, all on your machine
-docker compose -f ../shared-docs/templates/docker-compose.observability.yml up -d
+# Local Jaeger + OTLP collector (per ADR-016) — free, all on your machine
+docker compose -f docker-compose.observability.yml up -d
 export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318/v1/traces
 export JAEGER_UI_URL=http://localhost:16686
 # run any eval, then open Jaeger and follow test -> retrieve -> generate -> tool spans
@@ -664,7 +664,7 @@ export JAEGER_UI_URL=http://localhost:16686
 
 - OpenTelemetry Python: <https://opentelemetry.io/docs/languages/python/>
 - OTel GenAI semantic conventions: <https://opentelemetry.io/docs/specs/semconv/gen-ai/>
-- ADR-016 (this portfolio): [`../shared-docs/docs/adr/ADR-016-distributed-tracing-in-test-execution.md`](../shared-docs/docs/adr/ADR-016-distributed-tracing-in-test-execution.md)
+- ADR-016 (this project's governing policy): [`docs/adr/ADR-016-distributed-tracing-in-test-execution.md`](docs/adr/ADR-016-distributed-tracing-in-test-execution.md)
 - Jaeger: <https://www.jaegertracing.io/docs/latest/>
 
 ### 4.5 Senior Interview Challenge
@@ -714,4 +714,4 @@ export JAEGER_UI_URL=http://localhost:16686
 ---
 
 *Canonical source: `LLM-Testing-and-Agentic-Engineering-Masterclass/LLM_TESTING_MASTERCLASS.md`*
-*Governed by the 7 Laws (`shared-docs/STANDARDS.md`) and ADR-019 (AI in Test Automation) / ADR-016 (Distributed Tracing).*
+*Governed by the 7 Laws (`STANDARDS.md`) and ADR-019 (AI in Test Automation) / ADR-016 (Distributed Tracing).*

@@ -13,7 +13,7 @@ It covers:
 - **Observability** (OpenTelemetry GenAI spans per ADR-016)
 
 ## 🏗️ Standards
-This repository is part of a larger portfolio governed by the **7 Laws of QA Automation**.
+This repository is governed by the **7 Laws of QA Automation**.
 See **[STANDARDS.md](STANDARDS.md)** for details.
 
 ## 🛠️ Usage
