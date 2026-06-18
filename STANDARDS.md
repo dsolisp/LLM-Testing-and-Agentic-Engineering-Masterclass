@@ -1,7 +1,7 @@
 # QA Portfolio — Architectural Standards
 <!-- SYNC-MANAGED — do not edit in project repos. Edit in shared-docs/ and run sync-standards.sh -->
 > **Version:** 1.0.0 · **Status:** Enforced · **Owner:** QA Architect  
-> **Scope:** All five project repos — Python · Playwright · Cypress · Java · C#  
+> **Scope:** All seven project repos — Python · Playwright · Cypress · Java · C# · API · LLM/Agentic
 > **Enforcement:** Per-repo CI (`audit_violations.sh`) + import-linter / ArchUnit / Roslyn / ESLint  
 
 ---
