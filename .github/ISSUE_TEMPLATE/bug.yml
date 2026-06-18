@@ -1,0 +1,65 @@
+name: "🐛 Bug Report"
+description: "A test or framework component is producing incorrect behavior"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug report. Please fill in as much detail as possible.
+
+  - type: input
+    id: affected-test
+    attributes:
+      label: "Affected test / canonical ID"
+      description: "Test function name and canonical ID from TEST_PARITY.md (e.g. SAUCE-03)"
+      placeholder: "test_add_item_to_cart / SAUCE-03"
+    validations:
+      required: true
+
+  - type: input
+    id: stack
+    attributes:
+      label: "Stack"
+      description: "Which repo is affected?"
+      placeholder: "Python · Playwright · Cypress · Java · C#"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: "What happened?"
+      description: "Actual behavior observed"
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: "Expected behavior"
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: "Steps to reproduce"
+      placeholder: |
+        1. Run `task test:sauce`
+        2. ...
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: "Environment"
+      placeholder: "OS: macOS 15 · Browser: Chrome 124 · Runner: local / CI"
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: "Relevant logs / stack trace"
+      render: shell

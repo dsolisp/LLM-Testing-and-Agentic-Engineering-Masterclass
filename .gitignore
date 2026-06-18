@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+.env
+.env.ai
+
+# AI / Vector DB
+.ai-heal-cache/
+chroma_db/
+*.log
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
+
+# Reports
+allure-results/
+allure-report/
+reports/
+
+# Sync-managed
+manifest.sha256

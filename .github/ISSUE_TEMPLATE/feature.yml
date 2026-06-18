@@ -1,0 +1,48 @@
+name: "✨ Feature / Improvement"
+description: "New test scenario, framework enhancement, or tooling improvement"
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for new features, test scenarios, or framework improvements.
+        If this adds a test scenario, it must be implemented in all 5 stacks (parity policy — ADR-007).
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description"
+      description: "What should be added or improved?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: "Motivation / use case"
+      description: "Why is this needed? What gap does it fill?"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: parity
+    attributes:
+      label: "Parity impact"
+      options:
+        - label: "This adds a new test scenario — I will implement it in all 5 stacks and update TEST_PARITY.md"
+        - label: "This is framework-only (no new scenario) — parity not affected"
+        - label: "This requires a new ADR (architectural change)"
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: "Acceptance criteria"
+      placeholder: |
+        - [ ] Test passes in Python
+        - [ ] Test passes in Playwright
+        - [ ] Test passes in Cypress
+        - [ ] Test passes in Java
+        - [ ] Test passes in C#
+        - [ ] TEST_PARITY.md updated
+    validations:
+      required: false

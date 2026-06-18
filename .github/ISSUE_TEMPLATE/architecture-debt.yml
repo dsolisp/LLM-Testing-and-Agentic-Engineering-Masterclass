@@ -1,0 +1,67 @@
+name: "🏛️ Architecture Debt"
+description: "A violation of the 7 laws that requires a tracked fix or a new ADR"
+labels: ["architecture-debt"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this issue when a 7-law violation cannot be fixed immediately, or when a new
+        architectural pattern is needed that requires an ADR.
+
+  - type: dropdown
+    id: violated-law
+    attributes:
+      label: "Violated Law"
+      options:
+        - "Law 1 — Locator Mirroring 1:1"
+        - "Law 2 — No assertions in POMs/locators"
+        - "Law 3 — No selectors in specs"
+        - "Law 4 — Inheritance ≤ 1 level"
+        - "Law 5 — Stateless POMs"
+        - "Law 6 — Pure stateless utils"
+        - "Law 7 — Identical naming across stacks"
+        - "New pattern — requires ADR"
+    validations:
+      required: true
+
+  - type: input
+    id: location
+    attributes:
+      label: "File / class location"
+      placeholder: "pages/sauce/login_page.py · line 42"
+    validations:
+      required: true
+
+  - type: input
+    id: stack
+    attributes:
+      label: "Stack"
+      placeholder: "Python · Playwright · Cypress · Java · C#"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description of the debt"
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-fix
+    attributes:
+      label: "Proposed fix / new ADR"
+      description: "Describe how this should be resolved. If a new ADR is needed, outline it here."
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: "Priority"
+      options:
+        - "P0 — Blocks parity / CI"
+        - "P1 — Next sprint"
+        - "P2 — Backlog"
+    validations:
+      required: true
