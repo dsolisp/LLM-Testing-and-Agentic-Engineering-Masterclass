@@ -1,0 +1,91 @@
+# Gavel PR quality gate — blocks NEW constitution violations on the PR delta.
+# Historical debt does not fail the gate (see docs: https://github.com/dsolisp/gavel/blob/main/docs/PR_CHECK.md).
+#
+# Pin: @dsolisp/gavel@0.13.0 (deterministic CLI, no LLM).
+
+name: gavel-pr-gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  security-events: write
+  pull-requests: read
+
+concurrency:
+  group: gavel-pr-gate-${{ github.repository }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pr-check:
+    name: gavel-pr-check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout (full history for base/head)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Reject new Gavel violations introduced by this PR
+        run: |
+          set -euo pipefail
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.event.pull_request.head.sha }}"
+          echo "gavel pr-check base=${BASE} head=${HEAD}"
+          npx --yes @dsolisp/gavel@0.13.0 pr-check . \
+            --base "${BASE}" \
+            --head "${HEAD}" \
+            --json \
+            --out gavel-pr-check.json
+          echo "pr-check status:"
+          node -e "const r=require('./gavel-pr-check.json'); console.log(JSON.stringify({status:r.status,findings:(r.findings||[]).length,unattributed:(r.unattributed||[]).length},null,2))"
+
+      - name: Upload pr-check evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gavel-pr-check
+          path: gavel-pr-check.json
+          if-no-files-found: ignore
+
+  # Visibility only — does not block on historical suite debt.
+  audit-sarif:
+    name: gavel-audit-sarif
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run Gavel audit (SARIF)
+        id: gavel
+        continue-on-error: true
+        run: npx --yes @dsolisp/gavel@0.13.0 audit --format sarif > gavel.sarif
+
+      - name: Upload SARIF to Code Scanning
+        if: always() && hashFiles('gavel.sarif') != ''
+        continue-on-error: true
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: gavel.sarif
+          category: gavel
+
+      - name: Upload SARIF artifact
+        if: always() && hashFiles('gavel.sarif') != ''
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: gavel-audit-sarif
+          path: gavel.sarif
